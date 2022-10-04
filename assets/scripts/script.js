@@ -4,20 +4,38 @@ $('#currentDay').text(today);
 
 function trackTime(){
     let currentTime = moment().hour();
-                                            console.log(currentTime);
+                                                            
           $('.time-block').each(function () {
             let listTime = parseInt($(this).attr('id'));
-                                            console.log(listTime);
-                if (listTime < currentTime) {
+                                                               
+                if (listTime > currentTime) {
                     $(this).addClass('future');
                 } else if (listTime === currentTime) {
                     $(this).addClass('present');
                 } else {
                     $(this).addClass('past');
                 }
-          
-          
             })            
 };
 
+//SAVE BUTTON
+$('.saveBtn').on('click', function() {
+    var task = $(this).siblings('.task').val();
+    var taskTime = $(this).siblings(".hour").text();
+    localStorage.setItem(taskTime, task);
+});
+
+function usePlanner() {
+
+    $(".hour").each(function() {
+        var currHour = $(this).text();
+        var currPlan = localStorage.getItem(currHour);
+
+        if(currPlan !== null) {
+            $(this).siblings(".task").val(currPlan);
+        }
+    });
+}
+
 trackTime();
+usePlanner();
